@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="container">
+        <h3 class="text-center">Irregular Verbs</h3>
+        <hr>
+
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Infinitive</th>
+                    <th scope="col">Past</th>
+                    <th scope="col">Participle</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+        <hr>
+        <div id="alertaa">asdasd</div>
+
+        <button class="btn btn-success btn-lg btn-block" onclick="check()">Check</button>
+        <button class="btn btn-danger btn-lg btn-block" onclick="update()">Reset</button>
+    </div>
+
+</body>
+
+<script src="base.js"></script>
+<script>
+    update();
+    function update() {
+        document.getElementById("alertaa").style.visibility = "hidden";
+
+        var arrayVerbs = [];
+
+        var tbody = document.querySelector("table tbody");
+        tbody.innerHTML = "";
+
+        for (var i = 0; i < 3; i++) {
+            arrayVerbs.push(verbs[Math.floor(Math.random() * verbs.length)]);
+        }
+
+        for (var index in arrayVerbs) {
+            tbody.innerHTML += `<tr>
+                    <td>${index}</td>
+                    <td>${arrayVerbs[index].infinitive}</td>
+                    <td>${arrayVerbs[index].past}</td>
+                    <td>${arrayVerbs[index].participle} </td>
+                    
+                </tr>`;
+        }
+
+        for (var i = 0; i < arrayVerbs.length; i++) {
+
+            var position = (Math.floor(Math.random() * 3) + 1);
+            var item = tbody.getElementsByTagName("tr")[i].getElementsByTagName("td")[position];
+            var hint = "";
+
+            switch (position) {
+                case 1:
+                    hint = "infinitive"
+                    break;
+                case 2:
+                    hint = "past"
+                    break;
+                case 3:
+                    hint = "participle"
+                    break;
+            }
+
+            tbody.getElementsByTagName("tr")[i].getElementsByTagName("td")[position].id = "input";
+            tbody.getElementsByTagName("tr")[i].getElementsByTagName("td")[position].innerHTML = `<input class="form-control" id = ${item.innerHTML} placeholder = ${hint} />`
+        }
+    }
+
+    function check() {
+        document.getElementById("alertaa").style.visibility = "visible";
+
+        var inputs = document.querySelectorAll("#input")
+        var corrects = 0;
+
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].firstChild.id == inputs[i].firstChild.value) {
+                inputs[i].firstChild.style.borderBottomColor = "green";
+                corrects++;
+            } else {
+                inputs[i].firstChild.style.borderBottomColor = "red";
+            }
+        }
+
+        if (corrects == inputs.length) {
+            document.getElementById("alertaa").innerHTML = "YOU WIN";
+            document.getElementById("alertaa").className = "alert alert-success text-center font-weight-bold";
+        } else {
+            document.getElementById("alertaa").innerHTML = "You correctly answered " + corrects + "/" + inputs.length + " . Keep trying!";
+            document.getElementById("alertaa").className = "alert alert-warning text-center font-weight-bold";
+        }
+    }
+
+</script>
+
+</html>
